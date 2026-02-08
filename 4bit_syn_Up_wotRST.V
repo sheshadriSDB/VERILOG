@@ -14,7 +14,7 @@ module tb;
 
     initial begin
         dut.count = 4'hF;   // simulation-only initialization
-        #100 $finish;
+        #200 $finish;
     end
 
     initial $monitor("%0t  %b (%0d)", $time, count, count);
