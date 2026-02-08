@@ -48,13 +48,13 @@ endmodule
 module tb_counter_4bit_sync;
 
     reg clk;
-    reg up_down;
+    reg up_down; //only use for updown counter //
     wire [3:0] q;
 
     // DUT
     counter_4bit_sync dut (
         .clk(clk),
-        .up_down(up_down),
+        .up_down(up_down), // up_down (up_down) to up_down(1'b1) for up counter , 1'b0 for down counter//
         .q(q)
     );
 
@@ -63,7 +63,7 @@ module tb_counter_4bit_sync;
 
     initial begin
         clk = 0;
-        up_down = 1;
+        up_down = 1; //only use up down counter // 
 
         // Run for some cycles
         repeat (10) @(posedge clk);
