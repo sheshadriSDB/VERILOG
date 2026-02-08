@@ -1,54 +1,21 @@
 `timescale 1ns/1ps
 
-// --------------------
-// 4-bit Up Counter
-// --------------------
-module up_counter_4bit (
-    input  wire clk,
-    output reg  [3:0] count
-);
-
-always @(posedge clk) begin
-    count <= count + 1;
-end
-
+module down_counter_4bit(input clk, output reg [3:0] count);
+    always @(posedge clk) count <= count - 1;
 endmodule
 
-
-// --------------------
-// Testbench
-// --------------------
-module tb_up_counter_4bit;
-
-    reg clk;
+module tb;
+    reg clk = 0;
     wire [3:0] count;
 
-    // Instantiate DUT (Device Under Test)
-    up_counter_4bit dut (
-        .clk(clk),
-        .count(count)
-    );
+    down_counter_4bit dut(clk, count);
 
-    // Clock generation: 10 ns period
+    always #5 clk = ~clk;
+
     initial begin
-        clk = 0;
-        forever #5 clk = ~clk;
+        dut.count = 4'hF;   // simulation-only initialization
+        #100 $finish;
     end
 
-    // Simulation control
-    initial begin
-        // Optional initialization (for clean simulation)
-        dut.count = 4'b0000;
-
-        #100;          // run for 100 ns
-        $finish;
-    end
-
-    // Monitor output
-    initial begin
-        $monitor("Time=%0t | Count=%b (%0d)", $time, count, count);
-    end
-
+    initial $monitor("%0t  %b (%0d)", $time, count, count);
 endmodule
-
-
